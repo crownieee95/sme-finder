@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SME Notes/Worksheets Finder</title>
+  <link rel="stylesheet" href="css/form.css"/>
+  <script>
+    function openInNewTab(url) {
+      const win = window.open(url, '_blank');
+      if (win) win.focus();
+      else alert('Please allow popups for this website.');
+    }
+
+    function handleFind(event) {
+      event.preventDefault();  
+      const topic = document.getElementById('topic').value.trim();
+      if (!topic) return alert('Please enter a topic.');
+
+      
+      const query = [
+        'site:savemyexams.com',
+        'filetype:pdf',
+        `"${topic}"`,
+        '-"Time Allowed"',
+        '"CIE"',
+        '"IGCSE"'
+      ].join(' ');
+
+      const url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+      openInNewTab(url);
+    }
+  </script>
+</head>
+<body>
+  <div class="form-wrapper">
+    <div class="form-box">
+      <h1>🔍 SME Notes Finder</h1>
+      <form class="input-wrapper" onsubmit="handleFind(event)">
+        <input
+          id="topic"
+          type="text"
+          placeholder="Enter topic..."
+          autofocus
+        />
+        <button class="find-button" type="submit">
+          Find
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

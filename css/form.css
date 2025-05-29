@@ -1,61 +1,152 @@
-/* form.css */
-body {
+/* reset + box sizing */
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+body {
   font-family: 'Segoe UI', sans-serif;
   background: #f8f9fa;
+
+  /* stack everything vertically & center it */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 100vh;
 }
 
 .form-wrapper {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 1rem;
 }
 
 .form-box {
-  background-color: #fff;
-  padding: 40px 30px;
+  background: #fff;
+  padding: 2.5rem 2rem;
   border-radius: 16px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 360px;
   text-align: center;
 }
 
 .form-box h1 {
-  margin-bottom: 24px;
-  font-size: 22px;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
 }
 
+/* STACK them vertically */
 .input-wrapper {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   width: 100%;
 }
 
-.input-wrapper input {
-  flex: 1;
-  background: #fff !important;   
+/* each field full width */
+.input-wrapper > input,
+.input-wrapper > select {
+  width: 100%;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px 0 0 8px;    
-  padding: 12px 16px;
-  font-size: 16px;
+  border-radius: 8px;
+  background: #fff;
   outline: none;
+  appearance: none;
+}
+
+.input-wrapper select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='5'%3E%3Cpath fill='%23666' d='M0 0l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 5px;
 }
 
 .find-button {
-  border: 1px solid #000;        
-  border-left: none;             
-  border-radius: 0 8px 8px 0;    
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
   background-color: #000;
   color: #fff;
-  padding: 12px 20px;
   cursor: pointer;
-  font-size: 16px;
+  align-self: center;
+  width: auto;
   transition: opacity 0.2s;
 }
 
 .find-button:hover {
   opacity: 0.9;
+}
+
+.theme-switch {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.disclaimer {
+  font-size: 0.85rem;
+  color: #555;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.site-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #777;
+  margin-top: 1.5rem;
+}
+
+[data-theme="dark"] {
+  color: #eee;
+}
+
+[data-theme="dark"] body {
+  background: #121212;
+}
+
+[data-theme="dark"] .form-box {
+  background: #1e1e1e;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .input-wrapper input,
+[data-theme="dark"] .input-wrapper select {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #eee;
+}
+
+[data-theme="dark"] .input-wrapper select {
+  background-color: #2a2a2a;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='5'%3E%3Cpath fill='%23ccc' d='M0 0l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 5px;
+}
+
+[data-theme="dark"] .find-button {
+  background-color: #eee;
+  color: #121212;
+}
+
+[data-theme="dark"] .disclaimer {
+  color: #aaa;
+}
+
+[data-theme="dark"] .site-footer {
+  color: #999;
 }

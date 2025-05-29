@@ -1,38 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>SME Notes/Worksheets Finder</title>
   <link rel="stylesheet" href="css/form.css"/>
-  <script>
-    function openInNewTab(url) {
-      const win = window.open(url, '_blank');
-      if (win) win.focus();
-      else alert('Please allow popups for this website.');
-    }
-
-    function handleFind(event) {
-      event.preventDefault();  
-      const topic = document.getElementById('topic').value.trim();
-      if (!topic) return alert('Please enter a topic.');
-
-      
-      const query = [
-        'site:savemyexams.com',
-        'filetype:pdf',
-        `"${topic}"`,
-        '-"Time Allowed"',
-        '"CIE"',
-        '"IGCSE"'
-      ].join(' ');
-
-      const url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-      openInNewTab(url);
-    }
-  </script>
 </head>
 <body>
+  <button id="theme-switch" class="theme-switch">🌙</button>
+
   <div class="form-wrapper">
     <div class="form-box">
       <h1>🔍 SME Notes Finder</h1>
@@ -42,12 +18,43 @@
           type="text"
           placeholder="Enter topic..."
           autofocus
+          required
         />
-        <button class="find-button" type="submit">
-          Find
-        </button>
+
+        <select id="board" required>
+          <option value="" disabled selected hidden>Choose board</option>
+          <option value="oxford">Oxford AQA</option>
+          <option value="cie">CIE</option>
+          <option value="edexcel">Edexcel</option>
+        </select>
+
+        <select id="level" required>
+          <option value="" disabled selected hidden>Choose level</option>
+          <option value="IGCSE">IGCSE</option>
+          <option value="GCSE">GCSE</option>
+          <option value="A-Level">A-Level</option>
+        </select>
+
+        <select id="qtype" required>
+          <option value="" disabled selected hidden>Choose type</option>
+          <option value="Notes">Notes</option>
+          <option value="MCQ">MCQ</option>
+          <option value="Theory">Theory</option>
+        </select>
+
+        <button class="find-button" type="submit">Find</button>
       </form>
+
+      <p class="disclaimer">
+        <em>This isn't guaranteed to give you the notes you are looking for; you may have to search more!! :))</em>
+      </p>
     </div>
+
+    <footer class="site-footer">
+      Made with ❤️ by crxwn &amp; bamb-boo !!
+    </footer>
   </div>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

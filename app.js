@@ -23,7 +23,7 @@ const drawDots = () => {
     })
 }
 drawDots();
-banner.addEventListener('mousemove', event => {
+document.addEventListener('mousemove', event => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawDots();
     let mouse = {
@@ -42,6 +42,6 @@ banner.addEventListener('mousemove', event => {
         }
     });
 });
-banner.addEventListener('mouseout', () => {
+document.addEventListener('mouseout', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 })

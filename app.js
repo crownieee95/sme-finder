@@ -129,3 +129,4 @@ function handleFind(event) {
     resultBox.appendChild(result);
   }
 }
+document.getElementById('topicForm').addEventListener('submit', handleFind);

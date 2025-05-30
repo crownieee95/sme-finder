@@ -4,22 +4,18 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>SME Notes/Worksheets Finder</title>
-  <link rel="stylesheet" href="css/form.css"/>
+  <link rel="stylesheet" href="form.css"/>
 </head>
 <body>
+  <div class = "banner">
+    <canvas id = "dotsCanvas"></canvas>
+  </div>
   <button id="theme-switch" class="theme-switch">🌙</button>
 
   <div class="form-wrapper">
     <div class="form-box">
       <h1>🔍 SME Notes Finder</h1>
       <form class="input-wrapper" onsubmit="handleFind(event)">
-        <input
-          id="topic"
-          type="text"
-          placeholder="Enter topic..."
-          autofocus
-          required
-        />
 
         <select id="board" required>
           <option value="" disabled selected hidden>Choose board</option>
@@ -42,6 +38,14 @@
           <option value="Theory">Theory</option>
         </select>
 
+        <input
+          id="topic"
+          type="text"
+          placeholder="Enter topic..."
+          autofocus
+          required
+        />
+
         <button class="find-button" type="submit">Find</button>
       </form>
 
@@ -54,7 +58,7 @@
       Made with ❤️ by crxwn &amp; bamb-boo !!
     </footer>
   </div>
-
-  <script src="js/main.js"></script>
+  <script src="main.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

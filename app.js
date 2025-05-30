@@ -26,7 +26,6 @@ for (let i = 0; i < 50; i++) {
 
   do {
     y = Math.floor(Math.random() * canvas.height);
-    // 🔁 Try again if it's too close to the footer vertically
   } while (y > (footerTop - paddingAroundFooter) && y < (footerBottom + paddingAroundFooter));
 
   dots.push({
@@ -50,7 +49,7 @@ const drawDotsOnly = () => {
 
 drawDotsOnly();
 
-// 🧠 Smart lines: only draw on real mouse (not touch)
+// 🧠 Smart lines: only draw on desktop
 document.addEventListener('mousemove', event => {
   if (window.matchMedia('(pointer: fine)').matches) {
     drawDotsOnly();
@@ -87,46 +86,3 @@ window.updateDotColors = function () {
   });
   drawDotsOnly();
 };
-
-let topicsData = [];
-
-let topicsLoaded = fetch('topics.json')
-  .then(res => res.json())
-  .then(data => {
-    topicsData = data.filter(entry => entry.topic && entry.link);
-      console.log("Loaded topics:", topicsData);
-  })
-  .catch(err => console.error("Failed to load topics database:", err));
-
-function handleFind(event) {
-  event.preventDefault();
-
-  const input = document.getElementById("topic").value.trim().toLowerCase();
-  const resultBox = document.querySelector(".form-box");
-
-  // Remove previous result
-  const oldResult = document.getElementById("topic-link");
-  if (oldResult) oldResult.remove();
-
-  const match = topicsData.find(entry =>
-    entry.topic.toLowerCase().trim() === input
-  );
-
-  if (match) {
-    // Open PDF in new tab immediately
-    window.open(match.link, '_blank');
-
-    // Optionally, show a small message to confirm
-    const result = document.createElement("p");
-    result.id = "topic-link";
-    result.textContent = `Opening PDF for "${match.topic}"...`;
-    resultBox.appendChild(result);
-
-  } else {
-    const result = document.createElement("p");
-    result.id = "topic-link";
-    result.textContent = "No match found. Try another spelling or phrasing.";
-    resultBox.appendChild(result);
-  }
-}
-document.getElementById('topicForm').addEventListener('submit', handleFind);

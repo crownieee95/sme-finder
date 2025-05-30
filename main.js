@@ -12,22 +12,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   btn.addEventListener('click', () => {
-  const html = document.documentElement;
-  const currentTheme = html.getAttribute('data-theme') || 'light';
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-  html.setAttribute('data-theme', newTheme);
-  btn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    html.setAttribute('data-theme', newTheme);
+    btn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
 
-  console.log(`🔁 Theme toggled to: ${newTheme}`);
-
-  // 🔄 Tell app.js to refresh dot colors
-  if (window.updateDotColors) {
-    window.updateDotColors();
-  }
+    console.log(`🔁 Theme toggled to: ${newTheme}`);
+    if (window.updateDotColors) window.updateDotColors();
+  });
 });
 
-});
+// Load topics.json
+let topicsData = [];
+
+fetch('topics.json')
+  .then(res => res.json())
+  .then(data => {
+    topicsData = data.filter(entry => entry.topic && entry.link);
+    console.log("✅ Topics loaded:", topicsData);
+  })
+  .catch(err => console.error("❌ Failed to load topics.json:", err));
 
 function buildQuery(topic, board, level, qtype) {
   const boardTags = {
@@ -36,28 +42,20 @@ function buildQuery(topic, board, level, qtype) {
     edexcel: '"Edexcel"'
   };
 
-  let parts = [
-    'site:savemyexams.com',
-    'filetype:pdf',
-    `"${topic}"`
-  ];
+  let query = `site:savemyexams.com filetype:pdf "${topic}" -"Time Allowed" -"Score"`;
 
   if (qtype === 'Notes') {
-    parts.push('-"Multiple Choice Questions" -"Theory questions"');
+    query += ' -"Multiple Choice Questions"';
   } else if (qtype === 'MCQ') {
-    parts.push('"Multiple Choice Questions"');
-    parts.push('-"Theory questions"');
+    query += ' "Multiple Choice Questions"';
   } else if (qtype === 'Theory') {
-    parts.push('"Theory questions"');
-    parts.push('-"Multiple Choice Questions"');
+    query += ' -"Multiple Choice Questions" "Theory Questions"';
   }
 
-  parts.push('-"Time Allowed"');
-  parts.push('-"Score"');
-  parts.push(`"${level}"`);
-  parts.push(boardTags[board]);
+  if (level) query += ` "${level}"`;
+  if (board && boardTags[board]) query += ` ${boardTags[board]}`;
 
-  return parts.join(' ');
+  return query;
 }
 
 function handleFind(event) {
@@ -73,7 +71,19 @@ function handleFind(event) {
   if (!level) return alert('Please choose a level.');
   if (!qtype) return alert('Please choose a question type.');
 
-  const query = buildQuery(topic, board, level, qtype);
-  const url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-  openInNewTab(url);
+  const match = topicsData.find(entry =>
+    entry.topic.toLowerCase().trim() === topic.toLowerCase()
+  );
+
+  if (match) {
+    console.log(`📄 Matched topic found: ${match.topic}`);
+    openInNewTab(match.link);
+  } else {
+    const query = buildQuery(topic, board, level, qtype);
+    console.log(`🔍 No match — using fallback query: ${query}`);
+    const url = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+    openInNewTab(url);
+  }
 }
+
+document.getElementById('topicForm').addEventListener('submit', handleFind);
